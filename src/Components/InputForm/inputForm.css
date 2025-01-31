@@ -1,0 +1,63 @@
+.inputFormMainContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.inputFormContainer {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.inputFormContainer > label {
+  width: 40%;
+}
+
+.inputMainContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 60%;
+}
+
+/* .clarificationPositionEnd {
+  position: absolute;
+  right: 1px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+ */
+/* .clarificationPositionStart {
+  position: absolute;
+  left: 1;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+} */
+/* .clarificationTextContainer {
+  height: calc(1.5rem - 2px);
+  width: 10%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 5px;
+  background-color: var(--grisClaro);
+  color: var(--gris);
+  font-size: 0.8rem;
+} */
+
+.left {
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+.right {
+  padding-left: 0.5rem;
+  padding-right: 2rem;
+}
+
+.errorMessage {
+  font-size: 0.7rem;
+  color: var(--purple);
+  align-self: center;
+}
