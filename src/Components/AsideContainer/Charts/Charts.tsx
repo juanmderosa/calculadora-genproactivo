@@ -1,23 +1,10 @@
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Legend,
-  Tooltip,
-} from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
 import "./charts.css";
 import { totalInteresesPagados } from "../../../helpers/Formulas/formulas";
 
 import { useFormStore } from "../../../store/store";
 
-export const Charts = (/* {
-  montoPrestamoCalculado,
-  pie,
-  bonoPie,
-  duracion,
-  pagoMensual,
-}: Props */) => {
+export const Charts = () => {
   const { formInfo, pagoMensual, montoPrestamoCalculado } = useFormStore();
 
   const data = [
@@ -65,7 +52,6 @@ export const Charts = (/* {
                     </>
                   ))}
                 </Pie>
-                {/* <Legend verticalAlign="top" /> */}
                 <Tooltip
                   separator=": $"
                   contentStyle={{ background: "white", fontSize: "14px" }}
