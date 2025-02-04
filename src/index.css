@@ -7,7 +7,7 @@
   --negroClaro: #242424;
   --negro: #000000;
   --blancoPuro: #ffffff;
-  --blancoOpaco: #fdfdfd;
+  --blancoOpaco: #e2e2e2;
   --baseRadius: 15px;
 }
 
@@ -21,41 +21,47 @@ body {
   min-height: 100vh;
   font-family: "Ubuntu", sans-serif;
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
 #main-container {
   width: 100%;
   height: 100%;
   padding: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Define dos columnas de igual tamaño */
-  grid-template-areas:
-    "form asideContainer"
-    "form asideContainer"
-    "details details"
-    "table table";
-  gap: 20px; /* Espaciado entre los elementos */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
 }
-
+#form-aside-container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 50px;
+  @media screen and (max-width: 700px) {
+    flex-direction: column;
+  }
+}
 #form {
-  grid-area: form;
+  width: 50%;
+  padding: 15px;
 }
 
 #asideContainer {
-  grid-area: asideContainer;
+  width: 50%;
+  padding: 15px;
 }
 
 #details {
-  grid-area: details;
+  width: 100%;
+  padding: 15px;
 }
 
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
-  height: 6px;
+  height: 3px;
   background: var(--purple);
   border-radius: 5px;
   outline: none;
@@ -63,13 +69,13 @@ input[type="range"] {
 
 /* Estilizar la parte completada del rango */
 input[type="range"]::-webkit-slider-runnable-track {
-  height: 6px;
+  height: 3px;
   background: var(--purple);
   border-radius: 5px;
 }
 
 input[type="range"]::-moz-range-track {
-  height: 6px;
+  height: 3px;
   background: var(--purple);
   border-radius: 5px;
 }
@@ -77,17 +83,17 @@ input[type="range"]::-moz-range-track {
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 16px;
-  height: 16px;
+  width: 10px;
+  height: 10px;
   background: var(--green);
   border-radius: 50%;
   cursor: pointer;
-  margin-top: -5px;
+  margin-top: -3px;
 }
 
 input[type="range"]::-moz-range-thumb {
-  width: 16px;
-  height: 16px;
+  width: 8px;
+  height: 8px;
   background: var(--green);
   border-radius: 50%;
   cursor: pointer;

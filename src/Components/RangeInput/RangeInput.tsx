@@ -1,10 +1,11 @@
 import { Control, Controller, FieldError } from "react-hook-form";
-import { FormValues } from "../helpers/zod/formSchema";
+import { FormValues } from "../../helpers/zod/formSchema";
+import "./rangeInput.css";
 
 interface Props {
   name: keyof FormValues;
   control: Control<FormValues>;
-  label: string;
+  label?: string;
   error?: FieldError;
   min?: number;
   max?: number;
@@ -13,7 +14,7 @@ interface Props {
 
 const RangeInput = ({ name, control, label, error, min, max, step }: Props) => {
   return (
-    <div>
+    <div className="rangeInputContainer">
       <label htmlFor={name}>{label}</label>
       <Controller
         name={name}
@@ -29,7 +30,7 @@ const RangeInput = ({ name, control, label, error, min, max, step }: Props) => {
           />
         )}
       />
-      {error && <p>{error.message}</p>}
+      {error && <p className="errorMessage">{error.message}</p>}
     </div>
   );
 };

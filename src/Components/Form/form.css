@@ -1,6 +1,19 @@
-#form > form {
+#form {
   display: flex;
   flex-direction: column;
-  gap: 10px;
   width: 100%;
+  gap: 5px;
+  .calculationsDivs {
+    text-align: center;
+    border-radius: 15px;
+    background-color: var(--green);
+    color: var(--gris);
+    font-size: 14px;
+    border: 1px solid black;
+    margin-block: 0.5rem;
+    padding: 0.5rem;
+    span {
+      font-size: 12px;
+    }
+  }
 }

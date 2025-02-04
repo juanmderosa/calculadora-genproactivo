@@ -1,37 +1,16 @@
+import { useFormStore } from "../../store/store";
 import TablaAmortizacion from "./TablaAmortizacion";
 import AmortizacionAnual from "./TablaAmortizacionAnual";
+import "./tables.css";
 
-interface Props {
-  montoPrestamoCalculado: number;
-  tasaDeInteres: number;
-  duracion: number;
-}
-
-export const Tabla = ({
-  montoPrestamoCalculado,
-  tasaDeInteres,
-  duracion,
-}: Props) => {
+export const Tabla = () => {
+  const { showMonthlyTable, showYearTable } = useFormStore();
   return (
-    <div
-      id="table"
-      style={{
-        width: "100%",
-        marginBlock: "1rem",
-        display: "flex",
-        gap: "2rem",
-        flexDirection: "column",
-      }}>
-      <TablaAmortizacion
-        montoPrestamo={montoPrestamoCalculado}
-        tasaInteres={tasaDeInteres}
-        duracion={duracion}
-      />
-      <AmortizacionAnual
-        montoPrestamo={montoPrestamoCalculado}
-        tasaInteres={tasaDeInteres}
-        duracion={duracion}
-      />
-    </div>
+    <section
+      id="detailTable"
+      className={`${showMonthlyTable} || ${showYearTable} ?  "show" : ""`}>
+      {showMonthlyTable && <TablaAmortizacion />}
+      {showYearTable && <AmortizacionAnual />}
+    </section>
   );
 };

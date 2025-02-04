@@ -9,7 +9,6 @@ interface Props {
   type?: string;
   error?: FieldError;
   clarificationText?: string;
-  clarificationPosition?: "start" | "end";
 }
 
 const InputForm = ({
@@ -18,7 +17,6 @@ const InputForm = ({
   label,
   type,
   error,
-  clarificationPosition,
   clarificationText,
 }: Props) => {
   return (
@@ -31,9 +29,7 @@ const InputForm = ({
             control={control}
             render={({ field }) => (
               <input
-                className={`${
-                  clarificationPosition === "end" ? "right" : "left"
-                }`}
+                className="inputForm"
                 id={`${name}-${type}`}
                 type={type}
                 {...field}
@@ -41,12 +37,7 @@ const InputForm = ({
             )}
           />
           {clarificationText && (
-            <span
-              className={`clarificationTextContainer ${
-                clarificationPosition === "end"
-                  ? "clarificationPositionEnd"
-                  : "clarificationPositionStart"
-              }`}>
+            <span className={`clarificationTextContainer `}>
               {clarificationText}
             </span>
           )}

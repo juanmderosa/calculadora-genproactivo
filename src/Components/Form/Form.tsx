@@ -2,16 +2,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import InputForm from "../InputForm/InputForm";
 import { FormValues, schema } from "../../helpers/zod/formSchema";
-import { DetallesPrestamo } from "../DetallesPrestamo";
-import {
-  calcularMontoPrestamoCalculado,
-  calcularPagoMensual,
-} from "../../helpers/Formulas/formulas";
-import { UFValue } from "../UFValue";
-import { AsideContainer } from "../AsideContainer";
-import RangeInput from "../RangeInput";
 import "./form.css";
-import { Tabla } from "../TablaAmortizacion/Tabla";
+import { useEffect } from "react";
+import { useFormStore } from "../../store/store";
+import RangeInput from "../RangeInput/RangeInput";
 
 export const Form = () => {
   const {
@@ -30,131 +24,90 @@ export const Form = () => {
     },
   });
 
-  // Escuchar cambios en los valores
-  const costoInmueble = watch("costoInmueble");
-  const pie = watch("pie");
-  const bonoPie = watch("bonoPie");
-  const tasaDeInteres = watch("tasaDeInteres");
-  const duracion = watch("duracion");
+  const costoInmueble = Number(watch("costoInmueble"));
+  const pie = Number(watch("pie"));
+  const bonoPie = Number(watch("bonoPie"));
+  const tasaDeInteres = Number(watch("tasaDeInteres"));
+  const duracion = Number(watch("duracion"));
 
-  // Calcular monto del préstamo dinámicamente
-  const montoPrestamoCalculado = calcularMontoPrestamoCalculado(
-    costoInmueble,
-    pie,
-    bonoPie
-  );
+  const { setFormInfo, montoPrestamoCalculado, valueType } = useFormStore();
 
-  // Calcular pago mensual estimado
-  const pagoMensual = calcularPagoMensual(
-    montoPrestamoCalculado,
-    tasaDeInteres,
-    duracion
-  );
+  useEffect(() => {
+    setFormInfo({ costoInmueble, pie, bonoPie, tasaDeInteres, duracion });
+  }, [bonoPie, costoInmueble, pie, tasaDeInteres, duracion, setFormInfo]);
 
   return (
-    <section id="main-container">
-      <div id="form">
-        <UFValue />
-        <form>
-          <InputForm
-            name="costoInmueble"
-            control={control}
-            label="Costo Inmueble"
-            type="number"
-            error={errors.costoInmueble}
-            clarificationPosition="end"
-            clarificationText="$"
-          />
-          <InputForm
-            name="pie"
-            control={control}
-            label="Pie"
-            type="number"
-            error={errors.pie}
-            clarificationPosition="start"
-            clarificationText="$"
-          />
-          <RangeInput
-            name="pie"
-            control={control}
-            label="Pie"
-            error={errors.pie}
-            min={0}
-            max={costoInmueble}
-            step={1000}
-          />
-          <InputForm
-            name="bonoPie"
-            control={control}
-            label="Bono Pie"
-            type="number"
-            error={errors.bonoPie}
-            clarificationPosition="start"
-            clarificationText="$"
-          />
-          <RangeInput
-            name="bonoPie"
-            control={control}
-            label="Bono Pie"
-            error={errors.bonoPie}
-            min={0}
-            max={costoInmueble - pie}
-            step={1000}
-          />
-          <p>
-            <strong>Monto del Préstamo Calculado:</strong>{" "}
-            {montoPrestamoCalculado}
-          </p>
-          <InputForm
-            name="tasaDeInteres"
-            control={control}
-            label="Tasa de Interés"
-            type="number"
-            error={errors.tasaDeInteres}
-            clarificationPosition="start"
-            clarificationText="%"
-          />
-          <RangeInput
-            name="tasaDeInteres"
-            control={control}
-            label="Tasa de Interés"
-            error={errors.tasaDeInteres}
-            min={0}
-            max={100}
-            step={1}
-          />
-          <InputForm
-            name="duracion"
-            control={control}
-            label="Duración"
-            type="number"
-            error={errors.duracion}
-            clarificationPosition="start"
-            clarificationText="años"
-          />
-        </form>
-        <Tabla
-          montoPrestamoCalculado={montoPrestamoCalculado}
-          tasaDeInteres={tasaDeInteres}
-          duracion={duracion}
-        />
+    <form id="form">
+      <InputForm
+        name="costoInmueble"
+        control={control}
+        label="Costo Inmueble:"
+        type="number"
+        error={errors.costoInmueble}
+        clarificationText={valueType === "$" ? "$" : "UF"}
+      />
+      <InputForm
+        name="pie"
+        control={control}
+        label="Pie: "
+        type="number"
+        error={errors.pie}
+        clarificationText="$"
+      />
+      <RangeInput
+        name="pie"
+        control={control}
+        error={errors.pie}
+        min={0}
+        max={costoInmueble}
+        step={1000}
+      />
+      <InputForm
+        name="bonoPie"
+        control={control}
+        label="Bono Pie"
+        type="number"
+        error={errors.bonoPie}
+        clarificationText="$"
+      />
+      <RangeInput
+        name="bonoPie"
+        control={control}
+        error={errors.bonoPie}
+        min={0}
+        max={costoInmueble - pie}
+        step={1000}
+      />
+      <div className="calculationsDivs">
+        <p>
+          Monto del Préstamo:<strong>${montoPrestamoCalculado}</strong>
+        </p>
+        <span>{`(Costo Inmueble en $ - Pie - Bono pie)`}</span>
       </div>
-
-      <AsideContainer
-        montoPrestamoCalculado={montoPrestamoCalculado}
-        pie={pie}
-        bonoPie={bonoPie}
-        duracion={duracion}
-        pagoMensual={pagoMensual}
+      <InputForm
+        name="tasaDeInteres"
+        control={control}
+        label="Tasa de Interés"
+        type="number"
+        error={errors.tasaDeInteres}
+        clarificationText="%"
       />
-
-      <DetallesPrestamo
-        montoPrestamoCalculado={montoPrestamoCalculado}
-        pie={pie}
-        bonoPie={bonoPie}
-        duracion={duracion}
-        pagoMensual={pagoMensual}
+      <RangeInput
+        name="tasaDeInteres"
+        control={control}
+        error={errors.tasaDeInteres}
+        min={0}
+        max={100}
+        step={1}
       />
-    </section>
+      <InputForm
+        name="duracion"
+        control={control}
+        label="Duración"
+        type="number"
+        error={errors.duracion}
+        clarificationText="años"
+      />
+    </form>
   );
 };
