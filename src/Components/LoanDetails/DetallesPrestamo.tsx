@@ -13,7 +13,8 @@ import "./detalles.css";
 import { IoHomeSharp } from "react-icons/io5";
 
 export const DetallesPrestamo = () => {
-  const { formInfo, montoPrestamoCalculado, pagoMensual } = useFormStore();
+  const { formInfo, montoPrestamoCalculado, pagoMensual, ufValue, valueType } =
+    useFormStore();
   const { pie, bonoPie, costoInmueble, duracion, tasaDeInteres } = formInfo;
 
   const interesesPagados = totalInteresesPagados(
@@ -63,37 +64,97 @@ export const DetallesPrestamo = () => {
       <article>
         <div>
           <p>
-            Monto del Préstamo: <strong>${montoPrestamoCalculado}</strong>
+            Monto del Préstamo:
+            <strong>
+              $
+              {valueType === "$"
+                ? montoPrestamoCalculado > 0
+                  ? montoPrestamoCalculado
+                  : 0
+                : montoPrestamoCalculado > 0
+                ? (montoPrestamoCalculado * ufValue).toFixed(2)
+                : 0}
+            </strong>
           </p>
           {renderProgressBar(montoPrestamoCalculado)}
         </div>
         <div>
           <p>
-            Pie: <strong>${pie > 0 ? pie : 0}</strong>
+            Pie:{" "}
+            <strong>
+              $
+              {valueType === "$"
+                ? pie > 0
+                  ? pie
+                  : 0
+                : pie > 0
+                ? (pie * ufValue).toFixed(2)
+                : 0}
+            </strong>
           </p>
           {renderProgressBar(pie)}
         </div>
         <div>
           <p>
-            Bono Pie: <strong>${bonoPie > 0 ? bonoPie : 0}</strong>
+            Bono Pie:{" "}
+            <strong>
+              $
+              {valueType === "$"
+                ? bonoPie > 0
+                  ? bonoPie
+                  : 0
+                : bonoPie > 0
+                ? (bonoPie * ufValue).toFixed(2)
+                : 0}
+            </strong>
           </p>
           {renderProgressBar(bonoPie)}
         </div>
         <div>
           <p>
-            Total de Intereses pagados: <strong>${interesesPagados}</strong>
+            Total de Intereses pagados:{" "}
+            <strong>
+              $
+              {valueType === "$"
+                ? interesesPagados > 0
+                  ? interesesPagados
+                  : 0
+                : interesesPagados > 0
+                ? (interesesPagados * ufValue).toFixed(2)
+                : 0}
+            </strong>
           </p>
           {renderProgressBar(interesesPagados)}
         </div>
         <div>
           <p>
-            CAE {Number(tasaDeInteres) + 1}%: <strong>${cae}</strong>
+            CAE {Number(tasaDeInteres) + 1}%:{" "}
+            <strong>
+              $
+              {valueType === "$"
+                ? cae > 0
+                  ? cae
+                  : 0
+                : cae > 0
+                ? (cae * ufValue).toFixed(2)
+                : 0}
+            </strong>
           </p>
           {renderProgressBar(cae)}
         </div>
         <div>
           <p>
-            Gastos Operacionales: <strong>${gastosOperacionales}</strong>
+            Gastos Operacionales:{" "}
+            <strong>
+              $
+              {valueType === "$"
+                ? gastosOperacionales > 0
+                  ? gastosOperacionales
+                  : 0
+                : gastosOperacionales > 0
+                ? (gastosOperacionales * ufValue).toFixed(2)
+                : 0}
+            </strong>
           </p>
           {renderProgressBar(gastosOperacionales)}
         </div>
@@ -101,7 +162,15 @@ export const DetallesPrestamo = () => {
       <div className="resumeContainer">
         <div className="resumeItem">
           <p>Total de {duracionTotal(duracion)} pagos:</p>
-          <strong>${prestamoConIntereses(duracion, pagoMensual)}</strong>
+          <strong>
+            $
+            {valueType === "$"
+              ? prestamoConIntereses(Number(duracion), Number(pagoMensual))
+              : (
+                  prestamoConIntereses(Number(duracion), Number(pagoMensual)) *
+                  ufValue
+                ).toFixed(2)}
+          </strong>
         </div>
         <div className="resumeItem">
           <p>Fecha finalización de pagos:</p>

@@ -17,3 +17,17 @@
     }
   }
 }
+
+.inputLineContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0rem;
+
+  .inputFormMainContainer:first-child {
+    width: 70%;
+  }
+  .inputFormMainContainer:last-child {
+    width: 30%;
+  }
+}

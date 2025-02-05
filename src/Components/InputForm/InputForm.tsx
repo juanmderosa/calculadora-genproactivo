@@ -1,14 +1,19 @@
 import { Control, Controller, FieldError } from "react-hook-form";
 import { FormValues } from "../../helpers/zod/formSchema";
 import "./inputForm.css";
+import "../Form/form.css";
+import { ChangeEvent } from "react";
 
 interface Props {
   name: keyof FormValues;
   control: Control<FormValues>;
-  label: string;
+  label?: string;
   type?: string;
   error?: FieldError;
   clarificationText?: string;
+  min?: number;
+  max?: number;
+  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputForm = ({
@@ -18,6 +23,8 @@ const InputForm = ({
   type,
   error,
   clarificationText,
+  min,
+  max,
 }: Props) => {
   return (
     <div className="inputFormMainContainer">
@@ -32,6 +39,8 @@ const InputForm = ({
                 className="inputForm"
                 id={`${name}-${type}`}
                 type={type}
+                min={min}
+                max={max}
                 {...field}
               />
             )}

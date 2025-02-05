@@ -12,13 +12,16 @@ export const Form = () => {
     control,
     formState: { errors },
     watch,
+    setValue,
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
     mode: "onChange",
     defaultValues: {
       costoInmueble: 0,
       pie: 0,
+      piePorcentaje: 0,
       bonoPie: 0,
+      bonoPiePorcentaje: 0,
       tasaDeInteres: 0,
       duracion: 0,
     },
@@ -29,12 +32,84 @@ export const Form = () => {
   const bonoPie = Number(watch("bonoPie"));
   const tasaDeInteres = Number(watch("tasaDeInteres"));
   const duracion = Number(watch("duracion"));
+  const piePorcentaje = Number(watch("piePorcentaje"));
+  const bonoPiePorcentaje = Number(watch("bonoPiePorcentaje"));
 
-  const { setFormInfo, montoPrestamoCalculado, valueType } = useFormStore();
+  const { setFormInfo, montoPrestamoCalculado, valueType, ufValue } =
+    useFormStore();
 
   useEffect(() => {
-    setFormInfo({ costoInmueble, pie, bonoPie, tasaDeInteres, duracion });
-  }, [bonoPie, costoInmueble, pie, tasaDeInteres, duracion, setFormInfo]);
+    setFormInfo({
+      costoInmueble,
+      pie,
+      bonoPie,
+      tasaDeInteres,
+      duracion,
+      piePorcentaje,
+      bonoPiePorcentaje,
+    });
+  }, [
+    bonoPie,
+    costoInmueble,
+    pie,
+    tasaDeInteres,
+    duracion,
+    bonoPiePorcentaje,
+    piePorcentaje,
+    setFormInfo,
+  ]);
+
+  useEffect(() => {
+    if (
+      piePorcentaje !== null &&
+      piePorcentaje !== undefined &&
+      costoInmueble !== null &&
+      costoInmueble !== undefined
+    ) {
+      const pie = (costoInmueble * piePorcentaje) / 100;
+      if (pie !== watch("pie")) {
+        setValue("pie", parseFloat(pie.toFixed(2)));
+      }
+    }
+
+    if (
+      bonoPiePorcentaje !== null &&
+      bonoPiePorcentaje !== undefined &&
+      costoInmueble !== null &&
+      costoInmueble !== undefined
+    ) {
+      const bonoPie = (costoInmueble * bonoPiePorcentaje) / 100;
+      if (bonoPie !== watch("bonoPie")) {
+        setValue("bonoPie", parseFloat(bonoPie.toFixed(2).replace(",", ".")));
+      }
+    }
+  }, [piePorcentaje, bonoPiePorcentaje, setValue]);
+
+  useEffect(() => {
+    if (
+      pie !== null &&
+      pie !== undefined &&
+      costoInmueble !== null &&
+      costoInmueble !== undefined
+    ) {
+      const piePorcentaje = (pie / costoInmueble) * 100;
+      if (piePorcentaje !== watch("piePorcentaje")) {
+        setValue("piePorcentaje", parseFloat(piePorcentaje.toFixed(2)));
+      }
+    }
+
+    if (
+      bonoPie !== null &&
+      bonoPie !== undefined &&
+      costoInmueble !== null &&
+      costoInmueble !== undefined
+    ) {
+      const bonoPiePorcentaje = (bonoPie / costoInmueble) * 100;
+      if (bonoPiePorcentaje !== watch("bonoPiePorcentaje")) {
+        setValue("bonoPiePorcentaje", parseFloat(bonoPiePorcentaje.toFixed(2)));
+      }
+    }
+  }, [pie, bonoPie, costoInmueble, setValue]);
 
   return (
     <form id="form">
@@ -46,41 +121,86 @@ export const Form = () => {
         error={errors.costoInmueble}
         clarificationText={valueType === "$" ? "$" : "UF"}
       />
-      <InputForm
-        name="pie"
-        control={control}
-        label="Pie: "
-        type="number"
-        error={errors.pie}
-        clarificationText="$"
-      />
+      <div className="inputLineContainer">
+        <InputForm
+          name="pie"
+          control={control}
+          label="Pie: "
+          type="number"
+          error={errors.pie}
+          clarificationText={valueType === "$" ? "$" : "UF"}
+          max={costoInmueble}
+        />
+        <InputForm
+          name="piePorcentaje"
+          control={control}
+          type="number"
+          error={errors.pie}
+          clarificationText="%"
+          min={0}
+          max={100}
+        />
+      </div>
+
       <RangeInput
         name="pie"
         control={control}
         error={errors.pie}
         min={0}
         max={costoInmueble}
-        step={1000}
+        step={0.1}
       />
-      <InputForm
-        name="bonoPie"
-        control={control}
-        label="Bono Pie"
-        type="number"
-        error={errors.bonoPie}
-        clarificationText="$"
-      />
+      <div className="inputLineContainer">
+        <InputForm
+          name="bonoPie"
+          control={control}
+          label="Bono Pie"
+          type="number"
+          error={errors.bonoPie}
+          clarificationText={valueType === "$" ? "$" : "UF"}
+          max={costoInmueble - pie}
+        />
+        <InputForm
+          name="bonoPiePorcentaje"
+          control={control}
+          type="number"
+          error={errors.pie}
+          clarificationText="%"
+          min={0}
+          max={100}
+          onChange={(e) =>
+            setValue("bonoPiePorcentaje", Number(e.target.value))
+          }
+        />
+      </div>
+
       <RangeInput
         name="bonoPie"
         control={control}
         error={errors.bonoPie}
         min={0}
         max={costoInmueble - pie}
-        step={1000}
+        step={0.1}
       />
       <div className="calculationsDivs">
         <p>
-          Monto del Préstamo:<strong>${montoPrestamoCalculado}</strong>
+          Monto del Préstamo:
+          {montoPrestamoCalculado > 0 && (
+            <strong>
+              {valueType === "$" ? (
+                <>
+                  {" "}
+                  ${montoPrestamoCalculado} / UF
+                  {(montoPrestamoCalculado / ufValue).toFixed(4)}
+                </>
+              ) : (
+                <>
+                  ${montoPrestamoCalculado * ufValue} / UF
+                  {montoPrestamoCalculado.toFixed(4)}
+                </>
+              )}
+            </strong>
+          )}
         </p>
         <span>{`(Costo Inmueble en $ - Pie - Bono pie)`}</span>
       </div>
@@ -89,6 +209,8 @@ export const Form = () => {
         control={control}
         label="Tasa de Interés"
         type="number"
+        min={0}
+        max={20}
         error={errors.tasaDeInteres}
         clarificationText="%"
       />
@@ -97,8 +219,8 @@ export const Form = () => {
         control={control}
         error={errors.tasaDeInteres}
         min={0}
-        max={100}
-        step={1}
+        max={20}
+        step={0.1}
       />
       <InputForm
         name="duracion"

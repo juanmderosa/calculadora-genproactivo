@@ -6,6 +6,8 @@ export interface formProps {
   bonoPie: number;
   tasaDeInteres: number;
   duracion: number;
+  piePorcentaje: number;
+  bonoPiePorcentaje: number;
 }
 
 interface StoreState {
@@ -58,6 +60,8 @@ export const useFormStore = create<StoreState>((set) => ({
     bonoPie: 0,
     tasaDeInteres: 0,
     duracion: 0,
+    piePorcentaje: 0,
+    bonoPiePorcentaje: 0,
   },
   montoPrestamoCalculado: 0,
   pagoMensual: 0,

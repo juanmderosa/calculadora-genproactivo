@@ -1,16 +1,15 @@
 #detailTable {
+  margin-block: 2rem;
   width: 100%;
   .show {
     margin-block: 2rem;
-    height: 200px;
-    overflow-y: scroll;
   }
 }
 
 .tableButtonContainer {
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 2rem;
   button {
     background-color: var(--purple);
@@ -28,14 +27,23 @@
   }
 }
 
+.tableTitle {
+  text-align: center;
+  font-weight: 700;
+}
+
 .tableMainContainer {
   width: 100%;
   padding: 1rem;
   font-size: 14px;
+  height: 250px;
+  overflow-y: scroll;
+
   .tableContainer {
     width: 100%;
     border-collapse: collapse;
     border-radius: 12px;
+
     .tableHead {
       background-color: var(--purple);
       color: var(--blancoPuro);
