@@ -37,11 +37,9 @@ export const DetallesPrestamo = () => {
   );
 
   const renderProgressBar = (valor: number) => {
-    const montoTotalNumber = Number(montoTotal);
-    const newValor = Number(valor);
-    const newCalculo = Number(
-      calcularPorcentajeIncidencia(newValor, montoTotalNumber)
-    );
+    const montoTotalNumber = montoTotal;
+    const newValor = valor;
+    const newCalculo = calcularPorcentajeIncidencia(newValor, montoTotalNumber);
     const porcentaje = Math.min(100, newCalculo);
 
     return (
@@ -49,7 +47,7 @@ export const DetallesPrestamo = () => {
         className="progress-bar"
         style={{ "--progress-width": `${porcentaje}%` } as React.CSSProperties}>
         <p className="progress-text">
-          {porcentaje > 0 ? `${porcentaje}%` : "0%"}
+          {porcentaje > 0 ? `${porcentaje.toFixed(2)}%` : "0%"}
         </p>
       </div>
     );
@@ -117,7 +115,7 @@ export const DetallesPrestamo = () => {
               $
               {valueType === "$"
                 ? interesesPagados > 0
-                  ? interesesPagados
+                  ? interesesPagados.toFixed(2)
                   : 0
                 : interesesPagados > 0
                 ? (interesesPagados * ufValue).toFixed(2)
@@ -128,7 +126,7 @@ export const DetallesPrestamo = () => {
         </div>
         <div>
           <p>
-            CAE {Number(tasaDeInteres) + 1}%:{" "}
+            CAE {tasaDeInteres + 1}%:{" "}
             <strong>
               $
               {valueType === "$"
@@ -165,11 +163,10 @@ export const DetallesPrestamo = () => {
           <strong>
             $
             {valueType === "$"
-              ? prestamoConIntereses(Number(duracion), Number(pagoMensual))
-              : (
-                  prestamoConIntereses(Number(duracion), Number(pagoMensual)) *
-                  ufValue
-                ).toFixed(2)}
+              ? prestamoConIntereses(duracion, pagoMensual).toFixed(2)
+              : (prestamoConIntereses(duracion, pagoMensual) * ufValue).toFixed(
+                  2
+                )}
           </strong>
         </div>
         <div className="resumeItem">

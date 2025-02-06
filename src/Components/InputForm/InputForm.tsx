@@ -2,7 +2,6 @@ import { Control, Controller, FieldError } from "react-hook-form";
 import { FormValues } from "../../helpers/zod/formSchema";
 import "./inputForm.css";
 import "../Form/form.css";
-import { ChangeEvent } from "react";
 
 interface Props {
   name: keyof FormValues;
@@ -13,7 +12,7 @@ interface Props {
   clarificationText?: string;
   min?: number;
   max?: number;
-  onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const InputForm = ({

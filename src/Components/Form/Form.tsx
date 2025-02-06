@@ -8,6 +8,8 @@ import { useFormStore } from "../../store/store";
 import RangeInput from "../RangeInput/RangeInput";
 
 export const Form = () => {
+  const { setFormInfo, montoPrestamoCalculado, valueType, ufValue, formInfo } =
+    useFormStore();
   const {
     control,
     formState: { errors },
@@ -15,28 +17,21 @@ export const Form = () => {
     setValue,
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    mode: "onChange",
+    mode: "onBlur",
     defaultValues: {
-      costoInmueble: 0,
-      pie: 0,
-      piePorcentaje: 0,
-      bonoPie: 0,
-      bonoPiePorcentaje: 0,
-      tasaDeInteres: 0,
-      duracion: 0,
+      ...formInfo,
     },
   });
 
-  const costoInmueble = Number(watch("costoInmueble"));
-  const pie = Number(watch("pie"));
+  const costoInmueble = Number(watch("costoInmueble")) || 0;
+  const pie = Number(watch("pie")) || 0;
   const bonoPie = Number(watch("bonoPie"));
-  const tasaDeInteres = Number(watch("tasaDeInteres"));
-  const duracion = Number(watch("duracion"));
-  const piePorcentaje = Number(watch("piePorcentaje"));
-  const bonoPiePorcentaje = Number(watch("bonoPiePorcentaje"));
+  const tasaDeInteres = Number(watch("tasaDeInteres")) || 0;
+  const duracion = Number(watch("duracion")) || 0;
+  const piePorcentaje = Number(watch("piePorcentaje")) || 0;
+  const bonoPiePorcentaje = Number(watch("bonoPiePorcentaje")) || 0;
 
-  const { setFormInfo, montoPrestamoCalculado, valueType, ufValue } =
-    useFormStore();
+  console.log(formInfo);
 
   useEffect(() => {
     setFormInfo({
@@ -68,7 +63,7 @@ export const Form = () => {
     ) {
       const pie = (costoInmueble * piePorcentaje) / 100;
       if (pie !== watch("pie")) {
-        setValue("pie", parseFloat(pie.toFixed(2)));
+        setValue("pie", pie);
       }
     }
 
@@ -80,7 +75,7 @@ export const Form = () => {
     ) {
       const bonoPie = (costoInmueble * bonoPiePorcentaje) / 100;
       if (bonoPie !== watch("bonoPie")) {
-        setValue("bonoPie", parseFloat(bonoPie.toFixed(2).replace(",", ".")));
+        setValue("bonoPie", bonoPie);
       }
     }
   }, [piePorcentaje, bonoPiePorcentaje, setValue]);
@@ -94,7 +89,7 @@ export const Form = () => {
     ) {
       const piePorcentaje = (pie / costoInmueble) * 100;
       if (piePorcentaje !== watch("piePorcentaje")) {
-        setValue("piePorcentaje", parseFloat(piePorcentaje.toFixed(2)));
+        setValue("piePorcentaje", piePorcentaje);
       }
     }
 
@@ -106,7 +101,7 @@ export const Form = () => {
     ) {
       const bonoPiePorcentaje = (bonoPie / costoInmueble) * 100;
       if (bonoPiePorcentaje !== watch("bonoPiePorcentaje")) {
-        setValue("bonoPiePorcentaje", parseFloat(bonoPiePorcentaje.toFixed(2)));
+        setValue("bonoPiePorcentaje", bonoPiePorcentaje);
       }
     }
   }, [pie, bonoPie, costoInmueble, setValue]);
@@ -168,9 +163,6 @@ export const Form = () => {
           clarificationText="%"
           min={0}
           max={100}
-          onChange={(e) =>
-            setValue("bonoPiePorcentaje", Number(e.target.value))
-          }
         />
       </div>
 
@@ -190,12 +182,12 @@ export const Form = () => {
               {valueType === "$" ? (
                 <>
                   {" "}
-                  ${montoPrestamoCalculado} / UF
+                  ${montoPrestamoCalculado.toFixed(2)} / UF
                   {(montoPrestamoCalculado / ufValue).toFixed(4)}
                 </>
               ) : (
                 <>
-                  ${montoPrestamoCalculado * ufValue} / UF
+                  ${(montoPrestamoCalculado * ufValue).toFixed(2)} / UF
                   {montoPrestamoCalculado.toFixed(4)}
                 </>
               )}

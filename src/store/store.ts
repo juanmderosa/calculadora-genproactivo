@@ -11,8 +11,6 @@ export interface formProps {
 }
 
 interface StoreState {
-  showMonthlyTable: boolean;
-  setShowMontlyTable: () => void;
   showYearTable: boolean;
   setShowYearTable: () => void;
   formInfo: formProps;
@@ -36,18 +34,10 @@ interface StoreState {
 }
 
 export const useFormStore = create<StoreState>((set) => ({
-  showMonthlyTable: false,
-  setShowMontlyTable: () => {
-    set((state) => ({
-      showMonthlyTable: !state.showMonthlyTable,
-      showYearTable: false,
-    }));
-  },
   showYearTable: false,
   setShowYearTable: () => {
     set((state) => ({
       showYearTable: !state.showYearTable,
-      showMonthlyTable: false,
     }));
   },
   ufValue: 0,
@@ -79,7 +69,7 @@ export const useFormStore = create<StoreState>((set) => ({
     pie: number,
     bonoPie: number
   ) => {
-    const monto = parseFloat((costoInmueble - pie - bonoPie).toFixed(2));
+    const monto = costoInmueble - pie - bonoPie;
     set({ montoPrestamoCalculado: monto });
   },
   setPagoMensual: (
@@ -95,7 +85,7 @@ export const useFormStore = create<StoreState>((set) => ({
         (montoPrestamoCalculado * tasaMensual) /
         (1 - Math.pow(1 + tasaMensual, -meses));
 
-      set({ pagoMensual: parseFloat(pago.toFixed(2)) });
+      set({ pagoMensual: pago });
       return;
     }
     set({ pagoMensual: 0 });

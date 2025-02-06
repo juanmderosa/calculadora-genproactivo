@@ -8,8 +8,8 @@ export const Charts = () => {
   const { formInfo, pagoMensual, montoPrestamoCalculado } = useFormStore();
 
   const data = [
-    { name: "Pie", value: Number(formInfo.pie) },
-    { name: "Bono Pie", value: Number(formInfo.bonoPie) },
+    { name: "Pie", value: formInfo.pie },
+    { name: "Bono Pie", value: formInfo.bonoPie },
     {
       name: "Total Intereses pagados",
       value: totalInteresesPagados(

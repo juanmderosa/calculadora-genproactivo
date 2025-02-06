@@ -2,7 +2,8 @@ import { calcularTablaAmortizacionAnual } from "../../helpers/Formulas/formulas"
 import { useFormStore } from "../../store/store";
 
 const AmortizacionAnual = () => {
-  const { formInfo, montoPrestamoCalculado, ufValue } = useFormStore();
+  const { formInfo, montoPrestamoCalculado, ufValue, valueType } =
+    useFormStore();
 
   const tabla = calcularTablaAmortizacionAnual(
     formInfo,
@@ -30,27 +31,55 @@ const AmortizacionAnual = () => {
               <tr key={fila.anio}>
                 <td>{fila.anio}</td>
                 <td>
-                  ${fila.cuotaAnual} / UF{" "}
-                  {parseFloat(
-                    (Number(fila.cuotaAnual) / Number(ufValue)).toFixed(4)
+                  {valueType === "$" ? (
+                    <>
+                      ${fila.cuotaAnual.toFixed(2)} / UF{" "}
+                      {(fila.cuotaAnual / ufValue).toFixed(4)}
+                    </>
+                  ) : (
+                    <>
+                      ${(fila.cuotaAnual * ufValue).toFixed(2)} / UF{" "}
+                      {fila.cuotaAnual.toFixed(4)}
+                    </>
                   )}
                 </td>
                 <td>
-                  ${fila.interes} / UF{" "}
-                  {parseFloat(
-                    (Number(fila.interes) / Number(ufValue)).toFixed(4)
+                  {valueType === "$" ? (
+                    <>
+                      ${fila.interes.toFixed(2)} / UF{" "}
+                      {(fila.interes / ufValue).toFixed(4)}
+                    </>
+                  ) : (
+                    <>
+                      ${(fila.interes * ufValue).toFixed(2)} / UF{" "}
+                      {fila.interes.toFixed(4)}
+                    </>
                   )}
                 </td>
                 <td>
-                  ${fila.abonoCapital} / UF{" "}
-                  {parseFloat(
-                    (Number(fila.abonoCapital) / Number(ufValue)).toFixed(4)
+                  {valueType === "$" ? (
+                    <>
+                      ${fila.abonoCapital.toFixed(2)} / UF{" "}
+                      {(fila.abonoCapital / ufValue).toFixed(4)}
+                    </>
+                  ) : (
+                    <>
+                      ${(fila.abonoCapital * ufValue).toFixed(2)} / UF{" "}
+                      {fila.abonoCapital.toFixed(4)}
+                    </>
                   )}
                 </td>
                 <td>
-                  ${fila.saldoRestante} / UF{" "}
-                  {parseFloat(
-                    (Number(fila.saldoRestante) / Number(ufValue)).toFixed(4)
+                  {valueType === "$" ? (
+                    <>
+                      ${fila.saldoRestante.toFixed(2)} / UF{" "}
+                      {(fila.saldoRestante / ufValue).toFixed(4)}
+                    </>
+                  ) : (
+                    <>
+                      ${(fila.saldoRestante * ufValue).toFixed(2)} / UF{" "}
+                      {fila.saldoRestante.toFixed(4)}
+                    </>
                   )}
                 </td>
               </tr>

@@ -20,9 +20,6 @@ export const UFValue = () => {
 
   return (
     <section id="ufValue">
-      <h3>
-        Valor UF al {formattedDate}: <strong>${ufValue}</strong>
-      </h3>
       <form>
         <p>Ingresar costo de inmueble en: </p>
         <label>
@@ -45,6 +42,9 @@ export const UFValue = () => {
           $
         </label>
       </form>
+      <h3>
+        Valor UF al {formattedDate}: <strong>${ufValue}</strong>
+      </h3>
     </section>
   );
 };

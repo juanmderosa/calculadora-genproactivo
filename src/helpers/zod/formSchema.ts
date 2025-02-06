@@ -9,23 +9,15 @@ export const schema = z.object({
       invalid_type_error: "El costo del inmueble debe ser un número",
     })
     .gt(0, "El valor debe ser mayor a 0"),
-  pie: z.coerce
-    .number({
-      required_error: "El valor es requerido",
-      invalid_type_error: "El Pie debe ser un número",
-    })
-    .gte(0, "El valor debe ser mayor a 0"),
+  pie: z.coerce.number().gte(0, "El valor debe ser mayor a 0"),
   piePorcentaje: z.coerce
     .number()
+    .gte(0, "El valor no puede ser menor a 0")
     .lte(100, "El valor no puede superar el 100%"),
-  bonoPie: z.coerce
-    .number({
-      required_error: "El valor es requerido",
-      invalid_type_error: "El Bono Pie debe ser un número",
-    })
-    .gte(0, "El valor debe ser mayor a 0"),
+  bonoPie: z.coerce.number().gte(0, "El valor debe ser mayor a 0"),
   bonoPiePorcentaje: z.coerce
     .number()
+    .gte(0, "El valor no puede ser menor a 0")
     .lte(100, "El valor no puede superar el 100%"),
   tasaDeInteres: z.coerce
     .number({

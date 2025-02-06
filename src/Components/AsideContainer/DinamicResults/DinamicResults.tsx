@@ -28,7 +28,7 @@ export const DinamicResults = () => {
 
       <div className="asociatedValues">
         <p>
-          CAE estimado del {`${Number(formInfo.tasaDeInteres) + 1}%:`}
+          CAE estimado del {`${formInfo.tasaDeInteres + 1}%:`}
           <strong>
             $
             {valueType === "$"
