@@ -6,6 +6,7 @@ import "./form.css";
 import { useEffect } from "react";
 import { useFormStore } from "../../store/store";
 import RangeInput from "../RangeInput/RangeInput";
+import { formatNumber } from "../../helpers/formatNumber";
 
 export const Form = () => {
   const { setFormInfo, montoPrestamoCalculado, valueType, ufValue, formInfo } =
@@ -28,7 +29,7 @@ export const Form = () => {
   const bonoPie = Number(watch("bonoPie"));
   const tasaDeInteres = Number(watch("tasaDeInteres")) || 0;
   const duracion = Number(watch("duracion")) || 0;
-  const piePorcentaje = Number(watch("piePorcentaje")) || 0;
+  const piePorcentaje = Number(watch("piePorcentaje")) || 20;
   const bonoPiePorcentaje = Number(watch("bonoPiePorcentaje")) || 0;
 
   console.log(formInfo);
@@ -111,7 +112,7 @@ export const Form = () => {
       <InputForm
         name="costoInmueble"
         control={control}
-        label="Costo Inmueble:"
+        label="Precio de escrituración:"
         type="number"
         error={errors.costoInmueble}
         clarificationText={valueType === "$" ? "$" : "UF"}
@@ -182,19 +183,19 @@ export const Form = () => {
               {valueType === "$" ? (
                 <>
                   {" "}
-                  ${montoPrestamoCalculado.toFixed(2)} / UF
-                  {(montoPrestamoCalculado / ufValue).toFixed(4)}
+                  ${formatNumber(montoPrestamoCalculado)} / UF
+                  {formatNumber(montoPrestamoCalculado / ufValue)}
                 </>
               ) : (
                 <>
-                  ${(montoPrestamoCalculado * ufValue).toFixed(2)} / UF
-                  {montoPrestamoCalculado.toFixed(4)}
+                  ${formatNumber(montoPrestamoCalculado * ufValue)} / UF
+                  {formatNumber(montoPrestamoCalculado)}
                 </>
               )}
             </strong>
           )}
         </p>
-        <span>{`(Costo Inmueble en $ - Pie - Bono pie)`}</span>
+        <span>{`(Precio de escrituración - Pie - Bono pie)`}</span>
       </div>
       <InputForm
         name="tasaDeInteres"

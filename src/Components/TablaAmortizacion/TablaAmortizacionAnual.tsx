@@ -1,3 +1,4 @@
+import { formatNumber } from "../../helpers/formatNumber";
 import { calcularTablaAmortizacionAnual } from "../../helpers/Formulas/formulas";
 import { useFormStore } from "../../store/store";
 
@@ -33,52 +34,52 @@ const AmortizacionAnual = () => {
                 <td>
                   {valueType === "$" ? (
                     <>
-                      ${fila.cuotaAnual.toFixed(2)} / UF{" "}
-                      {(fila.cuotaAnual / ufValue).toFixed(4)}
+                      ${formatNumber(fila.cuotaAnual)} / UF{" "}
+                      {formatNumber(fila.cuotaAnual / ufValue)}
                     </>
                   ) : (
                     <>
-                      ${(fila.cuotaAnual * ufValue).toFixed(2)} / UF{" "}
-                      {fila.cuotaAnual.toFixed(4)}
+                      ${formatNumber(fila.cuotaAnual * ufValue)} / UF{" "}
+                      {formatNumber(fila.cuotaAnual)}
                     </>
                   )}
                 </td>
                 <td>
                   {valueType === "$" ? (
                     <>
-                      ${fila.interes.toFixed(2)} / UF{" "}
-                      {(fila.interes / ufValue).toFixed(4)}
+                      ${formatNumber(fila.interes)} / UF{" "}
+                      {formatNumber(fila.interes / ufValue)}
                     </>
                   ) : (
                     <>
-                      ${(fila.interes * ufValue).toFixed(2)} / UF{" "}
-                      {fila.interes.toFixed(4)}
+                      ${formatNumber(fila.interes * ufValue)} / UF{" "}
+                      {formatNumber(fila.interes)}
                     </>
                   )}
                 </td>
                 <td>
                   {valueType === "$" ? (
                     <>
-                      ${fila.abonoCapital.toFixed(2)} / UF{" "}
-                      {(fila.abonoCapital / ufValue).toFixed(4)}
+                      ${formatNumber(fila.abonoCapital)} / UF{" "}
+                      {formatNumber(fila.abonoCapital / ufValue)}
                     </>
                   ) : (
                     <>
-                      ${(fila.abonoCapital * ufValue).toFixed(2)} / UF{" "}
-                      {fila.abonoCapital.toFixed(4)}
+                      ${formatNumber(fila.abonoCapital * ufValue)} / UF{" "}
+                      {formatNumber(fila.abonoCapital)}
                     </>
                   )}
                 </td>
                 <td>
                   {valueType === "$" ? (
                     <>
-                      ${fila.saldoRestante.toFixed(2)} / UF{" "}
-                      {(fila.saldoRestante / ufValue).toFixed(4)}
+                      ${formatNumber(fila.saldoRestante)} / UF{" "}
+                      {formatNumber(fila.saldoRestante / ufValue)}
                     </>
                   ) : (
                     <>
-                      ${(fila.saldoRestante * ufValue).toFixed(2)} / UF{" "}
-                      {fila.saldoRestante.toFixed(4)}
+                      ${formatNumber(fila.saldoRestante * ufValue)} / UF{" "}
+                      {formatNumber(fila.saldoRestante)}
                     </>
                   )}
                 </td>

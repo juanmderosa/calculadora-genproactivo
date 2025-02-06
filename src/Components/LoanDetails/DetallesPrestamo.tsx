@@ -1,4 +1,5 @@
 import { getFinalDate } from "../../helpers/dates/dates";
+import { formatNumber } from "../../helpers/formatNumber";
 import {
   calcularCae,
   calcularGastosOperacionales,
@@ -47,7 +48,7 @@ export const DetallesPrestamo = () => {
         className="progress-bar"
         style={{ "--progress-width": `${porcentaje}%` } as React.CSSProperties}>
         <p className="progress-text">
-          {porcentaje > 0 ? `${porcentaje.toFixed(2)}%` : "0%"}
+          {porcentaje > 0 ? `${formatNumber(porcentaje)}%` : "0%"}
         </p>
       </div>
     );
@@ -67,10 +68,10 @@ export const DetallesPrestamo = () => {
               $
               {valueType === "$"
                 ? montoPrestamoCalculado > 0
-                  ? montoPrestamoCalculado
+                  ? formatNumber(montoPrestamoCalculado)
                   : 0
                 : montoPrestamoCalculado > 0
-                ? (montoPrestamoCalculado * ufValue).toFixed(2)
+                ? formatNumber(montoPrestamoCalculado * ufValue)
                 : 0}
             </strong>
           </p>
@@ -83,10 +84,10 @@ export const DetallesPrestamo = () => {
               $
               {valueType === "$"
                 ? pie > 0
-                  ? pie
+                  ? formatNumber(pie)
                   : 0
                 : pie > 0
-                ? (pie * ufValue).toFixed(2)
+                ? formatNumber(pie * ufValue)
                 : 0}
             </strong>
           </p>
@@ -99,10 +100,10 @@ export const DetallesPrestamo = () => {
               $
               {valueType === "$"
                 ? bonoPie > 0
-                  ? bonoPie
+                  ? formatNumber(bonoPie)
                   : 0
                 : bonoPie > 0
-                ? (bonoPie * ufValue).toFixed(2)
+                ? formatNumber(bonoPie * ufValue)
                 : 0}
             </strong>
           </p>
@@ -115,10 +116,10 @@ export const DetallesPrestamo = () => {
               $
               {valueType === "$"
                 ? interesesPagados > 0
-                  ? interesesPagados.toFixed(2)
+                  ? formatNumber(interesesPagados)
                   : 0
                 : interesesPagados > 0
-                ? (interesesPagados * ufValue).toFixed(2)
+                ? formatNumber(interesesPagados * ufValue)
                 : 0}
             </strong>
           </p>
@@ -131,10 +132,10 @@ export const DetallesPrestamo = () => {
               $
               {valueType === "$"
                 ? cae > 0
-                  ? cae
+                  ? formatNumber(cae)
                   : 0
                 : cae > 0
-                ? (cae * ufValue).toFixed(2)
+                ? formatNumber(cae * ufValue)
                 : 0}
             </strong>
           </p>
@@ -147,10 +148,10 @@ export const DetallesPrestamo = () => {
               $
               {valueType === "$"
                 ? gastosOperacionales > 0
-                  ? gastosOperacionales
+                  ? formatNumber(gastosOperacionales)
                   : 0
                 : gastosOperacionales > 0
-                ? (gastosOperacionales * ufValue).toFixed(2)
+                ? formatNumber(gastosOperacionales * ufValue)
                 : 0}
             </strong>
           </p>
@@ -163,9 +164,9 @@ export const DetallesPrestamo = () => {
           <strong>
             $
             {valueType === "$"
-              ? prestamoConIntereses(duracion, pagoMensual).toFixed(2)
-              : (prestamoConIntereses(duracion, pagoMensual) * ufValue).toFixed(
-                  2
+              ? formatNumber(prestamoConIntereses(duracion, pagoMensual))
+              : formatNumber(
+                  prestamoConIntereses(duracion, pagoMensual) * ufValue
                 )}
           </strong>
         </div>

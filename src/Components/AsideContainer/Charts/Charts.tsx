@@ -1,4 +1,12 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  ResponsiveContainer,
+  Tooltip,
+  Legend,
+  Label,
+} from "recharts";
 import "./charts.css";
 import { totalInteresesPagados } from "../../../helpers/Formulas/formulas";
 
@@ -52,6 +60,17 @@ export const Charts = () => {
                     </>
                   ))}
                 </Pie>
+                <Legend align="center" />
+                {/* <Label
+                  offset={0}
+                  position={"inside"}
+                /> */}
+                <Label
+                  value="Pages of my website"
+                  offset={0}
+                  position="insideBottom"
+                />
+
                 <Tooltip
                   separator=": $"
                   contentStyle={{ background: "white", fontSize: "14px" }}

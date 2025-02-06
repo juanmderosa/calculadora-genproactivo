@@ -1,3 +1,4 @@
+import { formatNumber } from "../../../helpers/formatNumber";
 import {
   calcularCae,
   calcularGastosOperacionales,
@@ -8,6 +9,7 @@ import "./dinamicResults.css";
 export const DinamicResults = () => {
   const { montoPrestamoCalculado, pagoMensual, formInfo, ufValue, valueType } =
     useFormStore();
+
   return (
     <div className="dinamicResultsContainer">
       <div className="estimatedMontlyPayment">
@@ -17,12 +19,14 @@ export const DinamicResults = () => {
             <strong>
               $
               {valueType === "$"
-                ? pagoMensual.toFixed(2)
-                : (pagoMensual * ufValue).toFixed(2)}
+                ? formatNumber(pagoMensual)
+                : formatNumber(pagoMensual * ufValue)}
             </strong>
           </p>
           <strong style={{ fontSize: "14px" }}>UF: </strong>{" "}
-          {valueType === "$" ? (pagoMensual / ufValue).toFixed(4) : pagoMensual}
+          {valueType === "$"
+            ? formatNumber(pagoMensual / ufValue)
+            : formatNumber(pagoMensual)}
         </div>
       </div>
 
@@ -35,15 +39,17 @@ export const DinamicResults = () => {
               ? montoPrestamoCalculado > 0 &&
                 pagoMensual > 0 &&
                 formInfo.tasaDeInteres > 0
-                ? calcularCae(montoPrestamoCalculado, formInfo.tasaDeInteres)
+                ? formatNumber(
+                    calcularCae(montoPrestamoCalculado, formInfo.tasaDeInteres)
+                  )
                 : 0
               : montoPrestamoCalculado > 0 &&
                 pagoMensual > 0 &&
                 formInfo.tasaDeInteres > 0
-              ? (
+              ? formatNumber(
                   calcularCae(montoPrestamoCalculado, formInfo.tasaDeInteres) *
-                  ufValue
-                ).toFixed(2)
+                    ufValue
+                )
               : 0}
           </strong>
         </p>
@@ -53,12 +59,14 @@ export const DinamicResults = () => {
             $
             {valueType === "$"
               ? montoPrestamoCalculado > 0 && pagoMensual > 0
-                ? calcularGastosOperacionales(montoPrestamoCalculado)
+                ? formatNumber(
+                    calcularGastosOperacionales(montoPrestamoCalculado)
+                  )
                 : 0
               : montoPrestamoCalculado > 0 && pagoMensual > 0
-              ? (
+              ? formatNumber(
                   calcularGastosOperacionales(montoPrestamoCalculado) * ufValue
-                ).toFixed(2)
+                )
               : 0}
           </strong>
         </p>
