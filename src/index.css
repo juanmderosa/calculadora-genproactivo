@@ -150,10 +150,33 @@ input:not(input[type="range"]) {
   height: 1.5rem;
   border-radius: 5px;
   font-family: "Ubuntu", sans-serif;
-  font-size: 1rem;
+  font-size: 14px;
 }
 
 input:not(input[type="range"]):focus {
   outline: 1px solid var(--purple);
   border: 1px solid var(--purple);
+}
+
+input[type="radio"] {
+  background-color: var(--blancoPuro) !important;
+  appearance: none;
+  width: 10px;
+  height: 10px !important;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
+  transition: all 0.3s linear;
+}
+
+input[type="radio"]:checked {
+  background-color: var(--green) !important;
+  appearance: none;
+  width: 12px;
+  height: 12px !important;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  margin: 0;
+  padding: 0;
 }

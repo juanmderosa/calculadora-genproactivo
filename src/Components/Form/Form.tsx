@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import InputForm from "../InputForm/InputForm";
 import { FormValues, schema } from "../../helpers/zod/formSchema";
 import "./form.css";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useFormStore } from "../../store/store";
 import RangeInput from "../RangeInput/RangeInput";
 import { formatNumber } from "../../helpers/formatNumber";
@@ -13,12 +13,12 @@ export const Form = () => {
     useFormStore();
   const {
     control,
+    setValue,
     formState: { errors },
     watch,
-    setValue,
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       ...formInfo,
     },
@@ -29,21 +29,41 @@ export const Form = () => {
   const bonoPie = Number(watch("bonoPie"));
   const tasaDeInteres = Number(watch("tasaDeInteres")) || 0;
   const duracion = Number(watch("duracion")) || 0;
-  const piePorcentaje = Number(watch("piePorcentaje")) || 20;
+  const piePorcentaje = Number(watch("piePorcentaje")) || 0;
   const bonoPiePorcentaje = Number(watch("bonoPiePorcentaje")) || 0;
 
-  console.log(formInfo);
+  const prevFormInfo = useRef(formInfo);
 
   useEffect(() => {
-    setFormInfo({
-      costoInmueble,
-      pie,
-      bonoPie,
-      tasaDeInteres,
-      duracion,
-      piePorcentaje,
-      bonoPiePorcentaje,
-    });
+    if (
+      prevFormInfo.current.costoInmueble !== costoInmueble ||
+      prevFormInfo.current.pie !== pie ||
+      prevFormInfo.current.bonoPie !== bonoPie ||
+      prevFormInfo.current.tasaDeInteres !== tasaDeInteres ||
+      prevFormInfo.current.duracion !== duracion ||
+      prevFormInfo.current.piePorcentaje !== piePorcentaje ||
+      prevFormInfo.current.bonoPiePorcentaje !== bonoPiePorcentaje
+    ) {
+      setFormInfo({
+        ...formInfo,
+        costoInmueble,
+        pie,
+        bonoPie,
+        tasaDeInteres,
+        duracion,
+        piePorcentaje,
+        bonoPiePorcentaje,
+      });
+      prevFormInfo.current = {
+        costoInmueble,
+        pie,
+        bonoPie,
+        tasaDeInteres,
+        duracion,
+        piePorcentaje,
+        bonoPiePorcentaje,
+      };
+    }
   }, [
     bonoPie,
     costoInmueble,
@@ -52,6 +72,7 @@ export const Form = () => {
     duracion,
     bonoPiePorcentaje,
     piePorcentaje,
+    formInfo,
     setFormInfo,
   ]);
 
@@ -63,8 +84,16 @@ export const Form = () => {
       costoInmueble !== undefined
     ) {
       const pie = (costoInmueble * piePorcentaje) / 100;
-      if (pie !== watch("pie")) {
-        setValue("pie", pie);
+      const formattedPie = parseFloat(pie.toFixed(2));
+      if (formattedPie !== Number(watch("pie"))) {
+        setFormInfo({
+          ...formInfo,
+          pie: formattedPie,
+          piePorcentaje: parseFloat(
+            ((formattedPie / costoInmueble) * 100).toFixed(2)
+          ),
+        });
+        setValue("pie", formattedPie);
       }
     }
 
@@ -75,11 +104,19 @@ export const Form = () => {
       costoInmueble !== undefined
     ) {
       const bonoPie = (costoInmueble * bonoPiePorcentaje) / 100;
-      if (bonoPie !== watch("bonoPie")) {
-        setValue("bonoPie", bonoPie);
+      const formattedBonoPie = parseFloat(bonoPie.toFixed(2));
+      if (formattedBonoPie !== Number(watch("bonoPie"))) {
+        setFormInfo({
+          ...formInfo,
+          bonoPie: formattedBonoPie,
+          bonoPiePorcentaje: parseFloat(
+            ((formattedBonoPie / costoInmueble) * 100).toFixed(2)
+          ),
+        });
+        setValue("bonoPie", formattedBonoPie);
       }
     }
-  }, [piePorcentaje, bonoPiePorcentaje, setValue]);
+  }, [piePorcentaje, bonoPiePorcentaje]);
 
   useEffect(() => {
     if (
@@ -89,8 +126,14 @@ export const Form = () => {
       costoInmueble !== undefined
     ) {
       const piePorcentaje = (pie / costoInmueble) * 100;
-      if (piePorcentaje !== watch("piePorcentaje")) {
-        setValue("piePorcentaje", piePorcentaje);
+      const formattedPiePorcentaje = parseFloat(piePorcentaje.toFixed(2));
+      if (formattedPiePorcentaje !== Number(watch("piePorcentaje"))) {
+        setFormInfo({
+          ...formInfo,
+          piePorcentaje: formattedPiePorcentaje,
+          pie: parseFloat(((pie * costoInmueble) / 100).toFixed(2)),
+        });
+        setValue("piePorcentaje", formattedPiePorcentaje);
       }
     }
 
@@ -101,11 +144,43 @@ export const Form = () => {
       costoInmueble !== undefined
     ) {
       const bonoPiePorcentaje = (bonoPie / costoInmueble) * 100;
-      if (bonoPiePorcentaje !== watch("bonoPiePorcentaje")) {
-        setValue("bonoPiePorcentaje", bonoPiePorcentaje);
+      const formattedBonoPiePorcentaje = parseFloat(
+        bonoPiePorcentaje.toFixed(2)
+      );
+      if (formattedBonoPiePorcentaje !== Number(watch("bonoPiePorcentaje"))) {
+        setFormInfo({
+          ...formInfo,
+          bonoPiePorcentaje: formattedBonoPiePorcentaje,
+          bonoPie: parseFloat(((bonoPie * costoInmueble) / 100).toFixed(2)),
+        });
+        setValue("bonoPiePorcentaje", formattedBonoPiePorcentaje);
       }
     }
-  }, [pie, bonoPie, costoInmueble, setValue]);
+  }, [pie, bonoPie]);
+
+  useEffect(() => {
+    if (costoInmueble !== null && costoInmueble !== undefined) {
+      if (piePorcentaje !== null && piePorcentaje !== undefined) {
+        const pie = (costoInmueble * piePorcentaje) / 100;
+        const formattedPie = parseFloat(pie.toFixed(2));
+        setFormInfo({
+          ...formInfo,
+          pie: formattedPie,
+        });
+        setValue("pie", formattedPie);
+      }
+
+      if (bonoPiePorcentaje !== null && bonoPiePorcentaje !== undefined) {
+        const bonoPie = (costoInmueble * bonoPiePorcentaje) / 100;
+        const formattedBonoPie = parseFloat(bonoPie.toFixed(2));
+        setFormInfo({
+          ...formInfo,
+          bonoPie: formattedBonoPie,
+        });
+        setValue("bonoPie", formattedBonoPie);
+      }
+    }
+  }, [costoInmueble]);
 
   return (
     <form id="form">
@@ -125,7 +200,7 @@ export const Form = () => {
           type="number"
           error={errors.pie}
           clarificationText={valueType === "$" ? "$" : "UF"}
-          max={costoInmueble}
+          max={costoInmueble - bonoPie}
         />
         <InputForm
           name="piePorcentaje"

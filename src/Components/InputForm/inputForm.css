@@ -32,17 +32,17 @@
 .clarificationTextContainer {
   position: absolute;
   right: 0;
-  padding: 0;
   background-color: gray;
   height: 1.5rem;
-  min-width: 25%;
+  min-width: 15%;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-top-right-radius: 7px;
-  border-bottom-right-radius: 7px;
-  padding-inline: 0.2rem;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding-inline: 0.3rem;
   color: white;
+  font-size: 12px;
 }
 
 .errorMessage {

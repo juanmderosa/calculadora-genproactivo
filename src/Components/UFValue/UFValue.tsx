@@ -22,24 +22,25 @@ export const UFValue = () => {
     <section id="ufValue">
       <form>
         <p>Ingresar costo de inmueble en: </p>
-        <label>
-          <input
-            type="radio"
-            value="uf"
-            name="valueType"
-            onChange={handleValueChange}
-            defaultChecked
-          />
-          UF
-        </label>
+
         <label>
           <input
             type="radio"
             value="$"
             name="valueType"
             onChange={handleValueChange}
+            defaultChecked
           />
           $
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="uf"
+            name="valueType"
+            onChange={handleValueChange}
+          />
+          UF
         </label>
       </form>
       <h3>

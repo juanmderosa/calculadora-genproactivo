@@ -45,8 +45,8 @@ export const useFormStore = create<StoreState>((set) => ({
     set({ ufValue: value });
   },
   formInfo: {
-    costoInmueble: 0,
-    pie: 0,
+    costoInmueble: 10000000,
+    pie: 2000000,
     bonoPie: 0,
     tasaDeInteres: 4.8,
     duracion: 30,
@@ -55,14 +55,16 @@ export const useFormStore = create<StoreState>((set) => ({
   },
   montoPrestamoCalculado: 0,
   pagoMensual: 0,
-  valueType: "uf",
+  valueType: "$",
   setValueType: (value: string) => {
     set({ valueType: value });
   },
   setFormInfo: (newFormInfo: formProps) =>
-    set((state) => ({
-      formInfo: { ...state.formInfo, ...newFormInfo },
-    })),
+    set((state) => {
+      return {
+        formInfo: { ...state.formInfo, ...newFormInfo },
+      };
+    }),
 
   setMontoPrestamoCalculado: (
     costoInmueble: number,
