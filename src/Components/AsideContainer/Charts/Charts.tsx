@@ -46,32 +46,36 @@ export const Charts = () => {
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
     return (
       <>
-        <text
-          style={{
-            fontSize: "12px",
-            maxWidth: "12px",
-          }}
-          x={x}
-          y={y - 40}
-          fill={"black"}
-          textAnchor={x > cx ? "start" : "end"}
-          width={40}
-          dominantBaseline="central">
-          {payload.name}:
-        </text>
-        <text
-          style={{
-            fontSize: "12px",
-            maxWidth: "12px",
-          }}
-          x={x}
-          y={y - 25}
-          fill={"black"}
-          textAnchor={x > cx ? "start" : "end"}
-          width={40}
-          dominantBaseline="central">
-          ${formatNumber(payload.value)}
-        </text>
+        {payload.value > 0 && (
+          <>
+            <text
+              style={{
+                fontSize: "12px",
+                maxWidth: "12px",
+              }}
+              x={x}
+              y={y - 40}
+              fill={"black"}
+              textAnchor={x > cx ? "start" : "end"}
+              width={40}
+              dominantBaseline="central">
+              {payload.name}:
+            </text>
+            <text
+              style={{
+                fontSize: "12px",
+                maxWidth: "12px",
+              }}
+              x={x}
+              y={y - 25}
+              fill={"black"}
+              textAnchor={x > cx ? "start" : "end"}
+              width={40}
+              dominantBaseline="central">
+              ${formatNumber(payload.value)}
+            </text>
+          </>
+        )}
       </>
     );
   };
@@ -102,7 +106,7 @@ export const Charts = () => {
                 {data.map((entry, index) => (
                   <>
                     <Cell
-                      key={`cell-${entry.name}-${index}-${Math.random()}`}
+                      key={`cell-${entry.name}-${index}`}
                       fill={COLORS[index % COLORS.length]}
                     />
                   </>
