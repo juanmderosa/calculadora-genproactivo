@@ -51,11 +51,24 @@
       .tableHeadRow {
         th {
           font-weight: 400;
+          @media screen and (max-width: 550px) {
+            font-size: 12px;
+          }
         }
       }
     }
     tbody {
       text-align: center;
+      @media screen and (max-width: 550px) {
+        font-size: 10px;
+      }
+      tr {
+        td {
+          @media screen and (max-width: 550px) {
+            padding: 5px;
+          }
+        }
+      }
     }
   }
 }
