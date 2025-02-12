@@ -182,6 +182,10 @@ export const Form = () => {
     }
   }, [costoInmueble]);
 
+  /*   useEffect(() => {
+   
+  }, [valueType]);
+ */
   return (
     <form id="form">
       <InputForm
